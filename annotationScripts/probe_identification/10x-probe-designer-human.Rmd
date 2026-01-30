@@ -1,0 +1,94 @@
+---
+title: "10x-probe-designer"
+output: html_document
+date: "2024-05-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r}
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(readr)
+#grab human probes from online
+probes_10x <- read.csv("~/Documents/scripts/targeted-sci/Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A - Chromium_Human_Transcriptome_Probe_Set_v1.0.1_GRCh38-2020-A.csv",header = FALSE)
+probes_10x <- probes_10x[-c(1:5), ]
+#colnames(probes_10x)<- rownames(probes_10x)
+new_colnames <- as.character(probes_10x[1, ])
+probes_10x <- probes_10x[-1, ]
+colnames(probes_10x) <- new_colnames
+#make new row for gene_short_name
+probes_10x <- probes_10x %>%
+  separate(probe_id, into = c(NA, "gene_short_name", NA), sep = "\\|", remove = FALSE)
+
+marker_genes_short_names <- c("PTPRC", "CD3G", "CD4", "CD8A", "CD69", "IL2", "IL2RA")
+marker_genes_short_names <- c("PDCD1")
+##all 10x probes are 50 bp long, so just taking chars 1-25 and 26-50 to isolate 25bp. Checked against full probe.
+#isolated marker_genes_id in previous code-- do this based on genes of interest
+
+filtered_probes_10x <- as.data.frame(filter(as.data.frame(probes_10x),gene_short_name %in% marker_genes_short_names))
+#check your filtered:
+unique(filtered_probes_10x$gene_short_name)
+
+filtered_probes_10x$probe_L  <- substr(filtered_probes_10x$probe_seq, 1, 25)
+filtered_probes_10x$probe_R  <- substr(filtered_probes_10x$probe_seq, 26, 50)
+
+#check if 3' is a GC
+# Apply the function to each column with sapply and create new columns. 
+filtered_probes_10x$GC_count_L <- str_count(filtered_probes_10x$probe_L, pattern= ("G|C"))/25
+filtered_probes_10x$GC_count_R <- str_count(filtered_probes_10x$probe_R, pattern= ("G|C"))/25
+filtered_probes_10x$GC_3prime_L <- substr(filtered_probes_10x$probe_L, 25, 25) %in% c("G", "C")
+filtered_probes_10x$GC_3prime_R <- substr(filtered_probes_10x$probe_R, 25, 25) %in% c("G", "C")
+filtered_probes_10x$GC_3prime_L_5bp <- str_count(substr(filtered_probes_10x$probe_L, 21, 25),pattern= ("G|C"))
+filtered_probes_10x$GC_3prime_R_5bp <- str_count(substr(filtered_probes_10x$probe_R, 21, 25),pattern= ("G|C"))
+filtered_probes_10x$final_probe <- NA
+filtered_probes_10x$finalLR <- NA
+
+for (i in 1:nrow(filtered_probes_10x)) {
+  if (filtered_probes_10x$GC_count_L[i] >= 0.40 & filtered_probes_10x$GC_count_L[i] <= 0.60 & filtered_probes_10x$GC_3prime_L[i]) {
+    filtered_probes_10x$final_probe[i] <- filtered_probes_10x$probe_L[i]
+    filtered_probes_10x$finalLR[i] <- "L"
+  } else if (filtered_probes_10x$GC_count_R[i] >= 0.40 & filtered_probes_10x$GC_count_R[i] <= 0.60 & filtered_probes_10x$GC_3prime_R[i]) {
+    filtered_probes_10x$final_probe[i] <- filtered_probes_10x$probe_R[i]
+    filtered_probes_10x$finalLR[i] <- "R"
+  }
+  if (filtered_probes_10x$GC_count_L[i] >= 0.40 & filtered_probes_10x$GC_count_L[i] <= 0.60 & filtered_probes_10x$GC_3prime_L_5bp[i] >=1) 
+      {
+      filtered_probes_10x$final_probe[i] <- filtered_probes_10x$probe_L[i]
+      filtered_probes_10x$finalLR[i] <- "L"
+      }
+else if(filtered_probes_10x$GC_count_R[i] >= 0.40 & filtered_probes_10x$GC_count_R[i] <= 0.60 & filtered_probes_10x$GC_3prime_R_5bp[i]>=1) {
+    filtered_probes_10x$final_probe[i] <- filtered_probes_10x$probe_R[i]
+    filtered_probes_10x$finalLR[i] <- "R"
+  }
+  }
+filtered_probes_10x$probe_id <- gsub("\\|", "_", filtered_probes_10x$probe_id)
+filtered_probes_10x$probe_id <- paste0(filtered_probes_10x$probe_id, "_", filtered_probes_10x$finalLR) #make final id name
+filtered_probes_10x <- filtered_probes_10x[!is.na(filtered_probes_10x$finalLR), ] #remove NAs
+filtered_probes_10x$final_probe_linker <- paste0("AGGCCAGAGCATTCG",filtered_probes_10x$final_probe)
+
+##Add RT probes for TCR (not 10x) 
+TCR_probes <- data.frame(
+  primer = c("Alpha_RC2", "Beta_RC2"),
+  sequence = c("GAGTCTCTCAGCTGGTACACG", "ACACAGCGACCTCGGGTGGGAA"),
+  stringsAsFactors = FALSE
+)
+
+TCR_probes$final_probe_linker <- paste0("AGGCCAGAGCATTCG",TCR_probes$sequence)
+
+write_csv(filtered_probes_10x,"~/Documents/scripts/targeted-sci/TCR/Filtered_7_gene_20_probe_10x.csv", col_names = TRUE, quote = "none")
+
+write_csv(TCR_probes, "~/Documents/scripts/targeted-sci/TCR/TCR_2_probes_alpha_beta.csv")
+write_csv(filtered_probes_10x, "~/Documents/scripts/targeted-sci/TCR/PD1.csv")
+
+#grab lines for probe_id and final_probe_linker  
+
+
+
+
+```
+

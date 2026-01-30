@@ -1,0 +1,1001 @@
+inheritFrom: generic-lt-single-cell-amplicon-with-umi
+pipeline:
+  - align
+  - refineTagsAndSort
+  - assemble
+  - exportClones
+mixins:
+  - type: SetSpecies
+    species: hs
+  - type: MaterialTypeRNA
+  - type: LeftAlignmentBoundaryNoPoint
+    floating: false
+  - type: RightAlignmentBoundaryNoPoint
+    floating: false
+    geneType: C
+  - type: SetClonotypeAssemblingFeatures
+    features: [ CDR3 ]
+  - type: SetTagPattern
+    tagPattern: ^(CELL1:N{9:10})cagagc(UMI:N{8})(CELL2:N{10})\^(R2:*)
+align:
+  inheritFrom: generic-lt-single-cell-amplicon-with-umi
+  overrides:
+    tagTransformationSteps:
+      - type: mapTags
+        name: "CELL1 to CELL1ID"
+        matchTags:
+          - CELL1
+        newTags:
+          - CELL1ID
+        allowOneMismatch: true
+        rules:
+          - from: ACTTGATTGT
+            to: 'Lig_BC_1'
+          - from: TAATCAGCTT
+            to: 'Lig_BC_2'
+          - from: TAAGAATGGT
+            to: 'Lig_BC_3'
+          - from: ACAACCTATT
+            to: 'Lig_BC_4'
+          - from: ATTCCTAGAT
+            to: 'Lig_BC_5'
+          - from: TTGATTCCTT
+            to: 'Lig_BC_6'
+          - from: AAGGATTACT
+            to: 'Lig_BC_7'
+          - from: TCCTATAAGT
+            to: 'Lig_BC_8'
+          - from: TATAAGAGGT
+            to: 'Lig_BC_9'
+          - from: TATTCTCCTT
+            to: 'Lig_BC_10'
+          - from: TAATACCAGT
+            to: 'Lig_BC_11'
+          - from: TGGATTCTAT
+            to: 'Lig_BC_12'
+          - from: TCTTAGTTCT
+            to: 'Lig_BC_13'
+          - from: TCTATCCAAT
+            to: 'Lig_BC_14'
+          - from: AATTCATCGT
+            to: 'Lig_BC_15'
+          - from: TAGATGACTT
+            to: 'Lig_BC_16'
+          - from: AAATTCCTCT
+            to: 'Lig_BC_17'
+          - from: ATTAGGTACT
+            to: 'Lig_BC_18'
+          - from: TGGTTGAATT
+            to: 'Lig_BC_19'
+          - from: AACTAGTTGT
+            to: 'Lig_BC_20'
+          - from: TTCTTCGTTT
+            to: 'Lig_BC_21'
+          - from: AAGTTCTTGT
+            to: 'Lig_BC_22'
+          - from: ACTTACTCAT
+            to: 'Lig_BC_23'
+          - from: ACCATGATTT
+            to: 'Lig_BC_24'
+          - from: TAACGACTTT
+            to: 'Lig_BC_25'
+          - from: TTTGCTACTT
+            to: 'Lig_BC_26'
+          - from: TAAGGTTCAT
+            to: 'Lig_BC_27'
+          - from: AGTATTAGCT
+            to: 'Lig_BC_28'
+          - from: ACAGGTATTT
+            to: 'Lig_BC_29'
+          - from: TTCCATCTTT
+            to: 'Lig_BC_30'
+          - from: ATTGATCGTT
+            to: 'Lig_BC_31'
+          - from: TGAATCTGAT
+            to: 'Lig_BC_32'
+          - from: TAGAACCAAT
+            to: 'Lig_BC_33'
+          - from: TTCTCATTGT
+            to: 'Lig_BC_34'
+          - from: ATATGGATCT
+            to: 'Lig_BC_35'
+          - from: ATCAGTCATT
+            to: 'Lig_BC_36'
+          - from: TATCTCGATT
+            to: 'Lig_BC_37'
+          - from: AAACTCCAAT
+            to: 'Lig_BC_38'
+          - from: TCAAGATCTT
+            to: 'Lig_BC_39'
+          - from: ATAACTTCCT
+            to: 'Lig_BC_40'
+          - from: AAGGATATGT
+            to: 'Lig_BC_41'
+          - from: TTACCTAAGT
+            to: 'Lig_BC_42'
+          - from: ATATCCTACT
+            to: 'Lig_BC_43'
+          - from: ATTAGTCTGT
+            to: 'Lig_BC_44'
+          - from: TGTCCTTATT
+            to: 'Lig_BC_45'
+          - from: TTGACTCAAT
+            to: 'Lig_BC_46'
+          - from: ATACCAGTTT
+            to: 'Lig_BC_47'
+          - from: TCCTAACTTT
+            to: 'Lig_BC_48'
+          - from: GGCGTTAAT
+            to: 'Lig_BC_49'
+          - from: GGTACCATT
+            to: 'Lig_BC_50'
+          - from: TTGACCAGT
+            to: 'Lig_BC_51'
+          - from: CGAATGAGT
+            to: 'Lig_BC_52'
+          - from: CAAGCAACT
+            to: 'Lig_BC_53'
+          - from: TTCGTTCCT
+            to: 'Lig_BC_54'
+          - from: TTGGAGCTT
+            to: 'Lig_BC_55'
+          - from: TAGGAAGGT
+            to: 'Lig_BC_56'
+          - from: CAGTATCCT
+            to: 'Lig_BC_57'
+          - from: CCTAATGGT
+            to: 'Lig_BC_58'
+          - from: GAGGAACTT
+            to: 'Lig_BC_59'
+          - from: AGTCGCATT
+            to: 'Lig_BC_60'
+          - from: ACGTTGCTT
+            to: 'Lig_BC_61'
+          - from: AGCGTAAGT
+            to: 'Lig_BC_62'
+          - from: TGCAAGGTT
+            to: 'Lig_BC_63'
+          - from: CTTCGACTT
+            to: 'Lig_BC_64'
+          - from: TTATCCGCT
+            to: 'Lig_BC_65'
+          - from: AGAGTACCT
+            to: 'Lig_BC_66'
+          - from: CTGAGCATT
+            to: 'Lig_BC_67'
+          - from: GCTCTTAGT
+            to: 'Lig_BC_68'
+          - from: TGCTGGATT
+            to: 'Lig_BC_69'
+          - from: ACGCTTGAT
+            to: 'Lig_BC_70'
+          - from: CAGCATTGT
+            to: 'Lig_BC_71'
+          - from: ATGGTTGGT
+            to: 'Lig_BC_72'
+          - from: CGTACCTAT
+            to: 'Lig_BC_73'
+          - from: CTCGTTGAT
+            to: 'Lig_BC_74'
+          - from: CATCAACGT
+            to: 'Lig_BC_75'
+          - from: CAGCAAGTT
+            to: 'Lig_BC_76'
+          - from: TCGAGAAGT
+            to: 'Lig_BC_77'
+          - from: CCAAGGATT
+            to: 'Lig_BC_78'
+          - from: AAGGACGAT
+            to: 'Lig_BC_79'
+          - from: AACTGGCAT
+            to: 'Lig_BC_80'
+          - from: GATAAGCGT
+            to: 'Lig_BC_81'
+          - from: GCGTACTTT
+            to: 'Lig_BC_82'
+          - from: GGCTAAGAT
+            to: 'Lig_BC_83'
+          - from: CTGCCTTAT
+            to: 'Lig_BC_84'
+          - from: GTCTATGGT
+            to: 'Lig_BC_85'
+          - from: GAGTTCTCT
+            to: 'Lig_BC_86'
+          - from: TACTTGCGT
+            to: 'Lig_BC_87'
+          - from: GATACGTCT
+            to: 'Lig_BC_88'
+          - from: AGATCGGAT
+            to: 'Lig_BC_89'
+          - from: TCAGCTTCT
+            to: 'Lig_BC_90'
+          - from: TCGAAGGAT
+            to: 'Lig_BC_91'
+          - from: GGTCAGTTT
+            to: 'Lig_BC_92'
+          - from: TGATGCGAT
+            to: 'Lig_BC_93'
+          - from: CTGATAGGT
+            to: 'Lig_BC_94'
+          - from: GTCTCTACT
+            to: 'Lig_BC_95'
+          - from: GTCGTAACT
+            to: 'Lig_BC_96'
+          - from: AAACCATAGT
+            to: 'Lig_BC_97'
+          - from: AAACTGAACT
+            to: 'Lig_BC_98'
+          - from: AAAGCTGATT
+            to: 'Lig_BC_99'
+          - from: AAATCGTTCT
+            to: 'Lig_BC_100'
+          - from: AACCTCATTT
+            to: 'Lig_BC_101'
+          - from: AACGAGCGT
+            to: 'Lig_BC_102'
+          - from: AACGATCATT
+            to: 'Lig_BC_103'
+          - from: AACGCGTCT
+            to: 'Lig_BC_104'
+          - from: AACGTAATCT
+            to: 'Lig_BC_105'
+          - from: AACTTGGATT
+            to: 'Lig_BC_106'
+          - from: AAGACCTTAT
+            to: 'Lig_BC_107'
+          - from: AAGCAGTATT
+            to: 'Lig_BC_108'
+          - from: AAGGCTACT
+            to: 'Lig_BC_109'
+          - from: AAGTACGTTT
+            to: 'Lig_BC_110'
+          - from: AAGTATTGGT
+            to: 'Lig_BC_111'
+          - from: AATACCGAAT
+            to: 'Lig_BC_112'
+          - from: AATCCAGTAT
+            to: 'Lig_BC_113'
+          - from: AATTCTAGGT
+            to: 'Lig_BC_114'
+          - from: ACAATGCTAT
+            to: 'Lig_BC_115'
+          - from: ACATGGTAAT
+            to: 'Lig_BC_116'
+          - from: ACATTCGTAT
+            to: 'Lig_BC_117'
+          - from: ACCGGTTCT
+            to: 'Lig_BC_118'
+          - from: ACCTCAATAT
+            to: 'Lig_BC_119'
+          - from: ACGACGCAT
+            to: 'Lig_BC_120'
+          - from: ACGATATCAT
+            to: 'Lig_BC_121'
+          - from: ACGCTTATAT
+            to: 'Lig_BC_122'
+          - from: ACGGAACGT
+            to: 'Lig_BC_123'
+          - from: ACGTCTAGT
+            to: 'Lig_BC_124'
+          - from: ACTGAATACT
+            to: 'Lig_BC_125'
+          - from: ACTGGACCT
+            to: 'Lig_BC_126'
+          - from: ACTGGTTATT
+            to: 'Lig_BC_127'
+          - from: ACTTATGGTT
+            to: 'Lig_BC_128'
+          - from: ACTTCCGTT
+            to: 'Lig_BC_129'
+          - from: AGAACTCCT
+            to: 'Lig_BC_130'
+          - from: AGAAGTAAGT
+            to: 'Lig_BC_131'
+          - from: AGAGATGAAT
+            to: 'Lig_BC_132'
+          - from: AGAGCATGT
+            to: 'Lig_BC_133'
+          - from: AGAGGTCGT
+            to: 'Lig_BC_134'
+          - from: AGATTCAACT
+            to: 'Lig_BC_135'
+          - from: AGATTGGTTT
+            to: 'Lig_BC_136'
+          - from: AGCATAACTT
+            to: 'Lig_BC_137'
+          - from: AGCATTATGT
+            to: 'Lig_BC_138'
+          - from: AGCTATCGT
+            to: 'Lig_BC_139'
+          - from: AGGATAATCT
+            to: 'Lig_BC_140'
+          - from: AGGCGGAAT
+            to: 'Lig_BC_141'
+          - from: AGGCTCGTT
+            to: 'Lig_BC_142'
+          - from: AGTAGCCAT
+            to: 'Lig_BC_143'
+          - from: AGTTAACCAT
+            to: 'Lig_BC_144'
+          - from: ATAAGCGAAT
+            to: 'Lig_BC_145'
+          - from: ATAATCCTGT
+            to: 'Lig_BC_146'
+          - from: ATACTACTCT
+            to: 'Lig_BC_147'
+          - from: ATAGTTGACT
+            to: 'Lig_BC_148'
+          - from: ATATCTGGAT
+            to: 'Lig_BC_149'
+          - from: ATATGCCATT
+            to: 'Lig_BC_150'
+          - from: ATCAATACGT
+            to: 'Lig_BC_151'
+          - from: ATCTGATGAT
+            to: 'Lig_BC_152'
+          - from: ATCTTCAGAT
+            to: 'Lig_BC_153'
+          - from: ATGCATTCAT
+            to: 'Lig_BC_154'
+          - from: ATGCTTCCT
+            to: 'Lig_BC_155'
+          - from: ATGGACTATT
+            to: 'Lig_BC_156'
+          - from: ATGGTAACTT
+            to: 'Lig_BC_157'
+          - from: ATTAATGCCT
+            to: 'Lig_BC_158'
+          - from: ATTACCATCT
+            to: 'Lig_BC_159'
+          - from: ATTCAAGCAT
+            to: 'Lig_BC_160'
+          - from: ATTCGCAATT
+            to: 'Lig_BC_161'
+          - from: ATTCGGAGT
+            to: 'Lig_BC_162'
+          - from: ATTGAGGAAT
+            to: 'Lig_BC_163'
+          - from: CAACTCTCT
+            to: 'Lig_BC_164'
+          - from: CAAGGCGTT
+            to: 'Lig_BC_165'
+          - from: CAGATCAGT
+            to: 'Lig_BC_166'
+          - from: CAGGACTCT
+            to: 'Lig_BC_167'
+          - from: CATACCGCT
+            to: 'Lig_BC_168'
+          - from: CCAATCCAT
+            to: 'Lig_BC_169'
+          - from: CCAGCCTTT
+            to: 'Lig_BC_170'
+          - from: CCATCGTCT
+            to: 'Lig_BC_171'
+          - from: CCGACCAAT
+            to: 'Lig_BC_172'
+          - from: CCGTCGATT
+            to: 'Lig_BC_173'
+          - from: CCTGCAGTT
+            to: 'Lig_BC_174'
+          - from: CCTGCTACT
+            to: 'Lig_BC_175'
+          - from: CGAAGACCT
+            to: 'Lig_BC_176'
+          - from: CGAGGCAAT
+            to: 'Lig_BC_177'
+          - from: CGATTCGCT
+            to: 'Lig_BC_178'
+          - from: CGCCATTCT
+            to: 'Lig_BC_179'
+          - from: CGCTAACCT
+            to: 'Lig_BC_180'
+          - from: CGCTGCTTT
+            to: 'Lig_BC_181'
+          - from: CGGAACCTT
+            to: 'Lig_BC_182'
+          - from: CGGTAAGGT
+            to: 'Lig_BC_183'
+          - from: CGTAGGCTT
+            to: 'Lig_BC_184'
+          - from: CGTCTTCCT
+            to: 'Lig_BC_185'
+          - from: CGTTGATCT
+            to: 'Lig_BC_186'
+          - from: CTAACGACT
+            to: 'Lig_BC_187'
+          - from: CTACCTGGT
+            to: 'Lig_BC_188'
+          - from: CTCCATCAT
+            to: 'Lig_BC_189'
+          - from: CTCGCATGT
+            to: 'Lig_BC_190'
+          - from: CTCTGAGCT
+            to: 'Lig_BC_191'
+          - from: CTGACGTTT
+            to: 'Lig_BC_192'
+          - from: CTTAGCGGT
+            to: 'Lig_BC_193'
+          - from: GACCGAATT
+            to: 'Lig_BC_194'
+          - from: GACTACCAT
+            to: 'Lig_BC_195'
+          - from: GACTCGCTT
+            to: 'Lig_BC_196'
+          - from: GACTGACGT
+            to: 'Lig_BC_197'
+          - from: GAGCGGTAT
+            to: 'Lig_BC_198'
+          - from: GATTACGGT
+            to: 'Lig_BC_199'
+          - from: GCAACGTTT
+            to: 'Lig_BC_200'
+          - from: GCGCTCAAT
+            to: 'Lig_BC_201'
+          - from: GCGGAGAAT
+            to: 'Lig_BC_202'
+          - from: GCGTCGTAT
+            to: 'Lig_BC_203'
+          - from: GCTCGAGAT
+            to: 'Lig_BC_204'
+          - from: GCTTCTGGT
+            to: 'Lig_BC_205'
+          - from: GGATAGGTT
+            to: 'Lig_BC_206'
+          - from: GGCGACTAT
+            to: 'Lig_BC_207'
+          - from: GGCGCATTT
+            to: 'Lig_BC_208'
+          - from: GGTACGGAT
+            to: 'Lig_BC_209'
+          - from: GGTAGTCCT
+            to: 'Lig_BC_210'
+          - from: GGTCCTTCT
+            to: 'Lig_BC_211'
+          - from: GTACCTCTT
+            to: 'Lig_BC_212'
+          - from: GTAGCGATT
+            to: 'Lig_BC_213'
+          - from: GTCGGAGTT
+            to: 'Lig_BC_214'
+          - from: GTCGGCAAT
+            to: 'Lig_BC_215'
+          - from: GTTCCAGCT
+            to: 'Lig_BC_216'
+          - from: GTTCGCTGT
+            to: 'Lig_BC_217'
+          - from: GTTGCTCCT
+            to: 'Lig_BC_218'
+          - from: TAAGACCGT
+            to: 'Lig_BC_219'
+          - from: TAGCTCGGT
+            to: 'Lig_BC_220'
+          - from: TATCCAGGT
+            to: 'Lig_BC_221'
+          - from: TCAGCGGTT
+            to: 'Lig_BC_222'
+          - from: TCAGTTGGT
+            to: 'Lig_BC_223'
+          - from: TCCGGTCAT
+            to: 'Lig_BC_224'
+          - from: TCCGTATGT
+            to: 'Lig_BC_225'
+          - from: TCCTACCTT
+            to: 'Lig_BC_226'
+          - from: TCGCGCATT
+            to: 'Lig_BC_227'
+          - from: TCGGTACCT
+            to: 'Lig_BC_228'
+          - from: TCGTAGCGT
+            to: 'Lig_BC_229'
+          - from: TCTCCGAAT
+            to: 'Lig_BC_230'
+          - from: TCTCTCCAT
+            to: 'Lig_BC_231'
+          - from: TGAACGCGT
+            to: 'Lig_BC_232'
+          - from: TGCCTTGGT
+            to: 'Lig_BC_233'
+          - from: TGCGTAGTT
+            to: 'Lig_BC_234'
+          - from: TGCTCCTAT
+            to: 'Lig_BC_235'
+          - from: TGGACCTCT
+            to: 'Lig_BC_236'
+          - from: TGGCCTGAT
+            to: 'Lig_BC_237'
+          - from: TGGTAGGCT
+            to: 'Lig_BC_238'
+          - from: TGGTCGAAT
+            to: 'Lig_BC_239'
+          - from: TGGTCTCCT
+            to: 'Lig_BC_240'
+          - from: TTCCGACGT
+            to: 'Lig_BC_241'
+          - from: TTCTCTCGT
+            to: 'Lig_BC_242'
+          - from: TTCTGGCCT
+            to: 'Lig_BC_243'
+          - from: TTGAGTCCT
+            to: 'Lig_BC_244'
+          - from: TTGCGGTCT
+            to: 'Lig_BC_245'
+          - from: TTGGCGACT
+            to: 'Lig_BC_246'
+          - from: AACCGCTGT
+            to: 'Lig_BC_247'
+          - from: AAGATGCCT
+            to: 'Lig_BC_248'
+          - from: AAGCGCCAT
+            to: 'Lig_BC_249'
+          - from: ACCAATGCT
+            to: 'Lig_BC_250'
+          - from: ACCGTAGCT
+            to: 'Lig_BC_251'
+          - from: ACCTTCGGT
+            to: 'Lig_BC_252'
+          - from: ACGAGGTTT
+            to: 'Lig_BC_253'
+          - from: ACGCCATAT
+            to: 'Lig_BC_254'
+          - from: ACGGCAATT
+            to: 'Lig_BC_255'
+          - from: AGCAACGAT
+            to: 'Lig_BC_256'
+          - from: AGGCATCAT
+            to: 'Lig_BC_257'
+          - from: AGTTGCGCT
+            to: 'Lig_BC_258'
+          - from: ATAGTCGCT
+            to: 'Lig_BC_259'
+          - from: ATGCCAAGT
+            to: 'Lig_BC_260'
+          - from: ATGGAGAGT
+            to: 'Lig_BC_261'
+          - from: ATGGCAGCT
+            to: 'Lig_BC_262'
+          - from: ATGGCGTAT
+            to: 'Lig_BC_263'
+          - from: ATTGCCGGT
+            to: 'Lig_BC_264'
+          - from: CAACGCAGT
+            to: 'Lig_BC_265'
+          - from: CAATCGGTT
+            to: 'Lig_BC_266'
+          - from: CAGAAGGCT
+            to: 'Lig_BC_267'
+          - from: CATCGGACT
+            to: 'Lig_BC_268'
+          - from: CCAGAACCT
+            to: 'Lig_BC_269'
+          - from: CCATCAGGT
+            to: 'Lig_BC_270'
+          - from: CCATTGCGT
+            to: 'Lig_BC_271'
+          - from: CCGAGAGAT
+            to: 'Lig_BC_272'
+          - from: CCGGAGTTT
+            to: 'Lig_BC_273'
+          - from: CCGGATAGT
+            to: 'Lig_BC_274'
+          - from: CCGTCTCAT
+            to: 'Lig_BC_275'
+          - from: CCTCCTGAT
+            to: 'Lig_BC_276'
+          - from: CGACGATAT
+            to: 'Lig_BC_277'
+          - from: CGAGATGCT
+            to: 'Lig_BC_278'
+          - from: CGCCGTAAT
+            to: 'Lig_BC_279'
+          - from: CGGTTCCAT
+            to: 'Lig_BC_280'
+          - from: CGTCGAAGT
+            to: 'Lig_BC_281'
+          - from: CTACGGCAT
+            to: 'Lig_BC_282'
+          - from: CTAGTACGT
+            to: 'Lig_BC_283'
+          - from: CTATCTCCT
+            to: 'Lig_BC_284'
+          - from: CTCCAGAGT
+            to: 'Lig_BC_285'
+          - from: CTCCGGTTT
+            to: 'Lig_BC_286'
+          - from: CTCCTCGTT
+            to: 'Lig_BC_287'
+          - from: CTCTACTGT
+            to: 'Lig_BC_288'
+          - from: CTGCTGAAT
+            to: 'Lig_BC_289'
+          - from: CTGGAAGAT
+            to: 'Lig_BC_290'
+          - from: CTTCATGCT
+            to: 'Lig_BC_291'
+          - from: GAACGATGT
+            to: 'Lig_BC_292'
+          - from: GAACGGCTT
+            to: 'Lig_BC_293'
+          - from: GAAGAGGCT
+            to: 'Lig_BC_294'
+          - from: GACCAGGAT
+            to: 'Lig_BC_295'
+          - from: GACCGTCAT
+            to: 'Lig_BC_296'
+          - from: GACGTTCGT
+            to: 'Lig_BC_297'
+          - from: GACTTGGCT
+            to: 'Lig_BC_298'
+          - from: GAGACTAGT
+            to: 'Lig_BC_299'
+          - from: GATCGACCT
+            to: 'Lig_BC_300'
+          - from: GCAATCGCT
+            to: 'Lig_BC_301'
+          - from: GCAGATACT
+            to: 'Lig_BC_302'
+          - from: GCATCCAGT
+            to: 'Lig_BC_303'
+          - from: GCCATGGTT
+            to: 'Lig_BC_304'
+          - from: GCGGTATAT
+            to: 'Lig_BC_305'
+          - from: GCTGAAGCT
+            to: 'Lig_BC_306'
+          - from: GCTGGCTAT
+            to: 'Lig_BC_307'
+          - from: GGACTTGAT
+            to: 'Lig_BC_308'
+          - from: GGAGCTCAT
+            to: 'Lig_BC_309'
+          - from: GGAGGTTCT
+            to: 'Lig_BC_310'
+          - from: GGCAAGTCT
+            to: 'Lig_BC_311'
+          - from: GGCTTACTT
+            to: 'Lig_BC_312'
+          - from: GGTCTACGT
+            to: 'Lig_BC_313'
+          - from: GGTTCGAGT
+            to: 'Lig_BC_314'
+          - from: GGTTGGCAT
+            to: 'Lig_BC_315'
+          - from: GTAAGCTCT
+            to: 'Lig_BC_316'
+          - from: GTAAGGAGT
+            to: 'Lig_BC_317'
+          - from: GTAGACGGT
+            to: 'Lig_BC_318'
+          - from: GTATCGCAT
+            to: 'Lig_BC_319'
+          - from: GTCATCTGT
+            to: 'Lig_BC_320'
+          - from: GTCCTGCAT
+            to: 'Lig_BC_321'
+          - from: GTTGCAAGT
+            to: 'Lig_BC_322'
+          - from: TAACTAAGGT
+            to: 'Lig_BC_323'
+          - from: TACGGTAGT
+            to: 'Lig_BC_324'
+          - from: TACTCCTATT
+            to: 'Lig_BC_325'
+          - from: TAGAGAGTAT
+            to: 'Lig_BC_326'
+          - from: TAGAGCCTT
+            to: 'Lig_BC_327'
+          - from: TAGCCAATTT
+            to: 'Lig_BC_328'
+          - from: TAGGTACTAT
+            to: 'Lig_BC_329'
+          - from: TAGTTACCTT
+            to: 'Lig_BC_330'
+          - from: TATAAGGCTT
+            to: 'Lig_BC_331'
+          - from: TATATGCGTT
+            to: 'Lig_BC_332'
+          - from: TATCATGAGT
+            to: 'Lig_BC_333'
+          - from: TATCGAACTT
+            to: 'Lig_BC_334'
+          - from: TATGACTTGT
+            to: 'Lig_BC_335'
+          - from: TATGAGAACT
+            to: 'Lig_BC_336'
+          - from: TATGCGATTT
+            to: 'Lig_BC_337'
+          - from: TATGGTCTTT
+            to: 'Lig_BC_338'
+          - from: TATTCGGCT
+            to: 'Lig_BC_339'
+          - from: TATTGACTCT
+            to: 'Lig_BC_340'
+          - from: TATTGAGGTT
+            to: 'Lig_BC_341'
+          - from: TCAGGAGAT
+            to: 'Lig_BC_342'
+          - from: TCATAGAGTT
+            to: 'Lig_BC_343'
+          - from: TCATGGCTT
+            to: 'Lig_BC_344'
+          - from: TCATTAAGCT
+            to: 'Lig_BC_345'
+          - from: TCCAAGTTAT
+            to: 'Lig_BC_346'
+          - from: TCCAATAGTT
+            to: 'Lig_BC_347'
+          - from: TCCTATTCTT
+            to: 'Lig_BC_348'
+          - from: TCCTCGAGT
+            to: 'Lig_BC_349'
+          - from: TCGAATCTTT
+            to: 'Lig_BC_350'
+          - from: TCGCCAACT
+            to: 'Lig_BC_351'
+          - from: TCGTCTATTT
+            to: 'Lig_BC_352'
+          - from: TCGTTCTGT
+            to: 'Lig_BC_353'
+          - from: TCTACTTACT
+            to: 'Lig_BC_354'
+          - from: TCTAGGAATT
+            to: 'Lig_BC_355'
+          - from: TCTATACCTT
+            to: 'Lig_BC_356'
+          - from: TCTCGCTCT
+            to: 'Lig_BC_357'
+          - from: TGAATTCGTT
+            to: 'Lig_BC_358'
+          - from: TGACGAGGT
+            to: 'Lig_BC_359'
+          - from: TGAGAATCAT
+            to: 'Lig_BC_360'
+          - from: TGAGTTAGAT
+            to: 'Lig_BC_361'
+          - from: TGATCTTCTT
+            to: 'Lig_BC_362'
+          - from: TGCCTATTAT
+            to: 'Lig_BC_363'
+          - from: TGCTAATTCT
+            to: 'Lig_BC_364'
+          - from: TGCTACTAAT
+            to: 'Lig_BC_365'
+          - from: TGGATCCGT
+            to: 'Lig_BC_366'
+          - from: TGGTAATAGT
+            to: 'Lig_BC_367'
+          - from: TGTTAAGACT
+            to: 'Lig_BC_368'
+          - from: TTAATGAGCT
+            to: 'Lig_BC_369'
+          - from: TTATAGGCAT
+            to: 'Lig_BC_370'
+          - from: TTCAACTGAT
+            to: 'Lig_BC_371'
+          - from: TTCCATTACT
+            to: 'Lig_BC_372'
+          - from: TTCGCATAAT
+            to: 'Lig_BC_373'
+          - from: TTCGCGGAT
+            to: 'Lig_BC_374'
+          - from: TTCTAAGCTT
+            to: 'Lig_BC_375'
+          - from: TTCTCTAGTT
+            to: 'Lig_BC_376'
+          - from: TTCTTAACCT
+            to: 'Lig_BC_377'
+          - from: TTGAAGTCTT
+            to: 'Lig_BC_378'
+          - from: TTGAGAGATT
+            to: 'Lig_BC_379'
+          - from: TTGGAGTTAT
+            to: 'Lig_BC_380'
+          - from: TTGGCAATAT
+            to: 'Lig_BC_381'
+          - from: TTGGCTCAT
+            to: 'Lig_BC_382'
+          - from: TTGGTTAAGT
+            to: 'Lig_BC_383'
+          - from: TTTGCTTAGT
+            to: 'Lig_BC_384'
+        reportingLevel: VerboseReport
+      - type: mapTags
+        name: "CELL2 to CELL2ID"
+        matchTags:
+          - CELL2
+        newTags:
+          - CELL2ID
+        allowOneMismatch: true
+        rules:
+          - from: TTGCTAACGG
+            to: 'RT_97'
+          - from: ACTAGAGAGT
+            to: 'RT_98'
+          - from: AATGCCGCTT
+            to: 'RT_99'
+          - from: TATAGACGCA
+            to: 'RT_100'
+          - from: TCAATCGCAT
+            to: 'RT_101'
+          - from: TTCTTAATAA
+            to: 'RT_102'
+          - from: GTCCTAGAGG
+            to: 'RT_103'
+          - from: ATATTGATAC
+            to: 'RT_104'
+          - from: CCGCTGCCAG
+            to: 'RT_105'
+          - from: CAATTACCGT
+            to: 'RT_106'
+          - from: GGCCGTAGTC
+            to: 'RT_107'
+          - from: TAATGAACGA
+            to: 'RT_108'
+          - from: CCGTTCCTTA
+            to: 'RT_109'
+          - from: ATGGCTCTGC
+            to: 'RT_110'
+          - from: GTATAATACG
+            to: 'RT_111'
+          - from: GGCGAACTCG
+            to: 'RT_112'
+          - from: TTAATTGAAT
+            to: 'RT_113'
+          - from: TTAGGACCGG
+            to: 'RT_114'
+          - from: AAGTAAGAGC
+            to: 'RT_115'
+          - from: CCTTGGTCCA
+            to: 'RT_116'
+          - from: CATCAGAATG
+            to: 'RT_117'
+          - from: TTATAGCAGA
+            to: 'RT_118'
+          - from: TTACTTGGAA
+            to: 'RT_119'
+          - from: GCTCAGCCGG
+            to: 'RT_120'
+          - from: ACGTCCGCAG
+            to: 'RT_121'
+          - from: TTGCGAGGCA
+            to: 'RT_122'
+          - from: TTCCAACCGC
+            to: 'RT_123'
+          - from: TCAAGCCGAT
+            to: 'RT_124'
+          - from: CTTGCAACCT
+            to: 'RT_125'
+          - from: CCATCGCGAA
+            to: 'RT_126'
+          - from: TAGACTTCTT
+            to: 'RT_127'
+          - from: GTCCTTAAGA
+            to: 'RT_128'
+          - from: AGTAACGGTC
+            to: 'RT_129'
+          - from: GTTCGTCAGA
+            to: 'RT_130'
+          - from: CGCCTAATGC
+            to: 'RT_131'
+          - from: ACCGGAATTA
+            to: 'RT_132'
+          - from: TAGGCCATAG
+            to: 'RT_133'
+          - from: TAACTCTTAG
+            to: 'RT_134'
+          - from: TATGAGTTAA
+            to: 'RT_135'
+          - from: TATCATGATC
+            to: 'RT_136'
+          - from: GAGCATATGG
+            to: 'RT_137'
+          - from: TAACGATCCA
+            to: 'RT_138'
+          - from: CGGCGTAACT
+            to: 'RT_139'
+          - from: CGTCGCAGCC
+            to: 'RT_140'
+          - from: GTAGCTCCAT
+            to: 'RT_141'
+          - from: GTCCTACTTG
+            to: 'RT_142'
+          - from: GGTAGGTTAG
+            to: 'RT_143'
+          - from: GAGCATCATT
+            to: 'RT_144'
+          - from: CCGCTCCGGC
+            to: 'RT_145'
+          - from: TTCTTCCGGT
+            to: 'RT_146'
+          - from: AGGAGAGAAC
+            to: 'RT_147'
+          - from: TAACTCAATT
+            to: 'RT_148'
+          - from: ACTATAGGTT
+            to: 'RT_149'
+          - from: AGGTATACTC
+            to: 'RT_150'
+          - from: TTCATAGGAC
+            to: 'RT_151'
+          - from: GGAGGCCTCC
+            to: 'RT_152'
+          - from: TTCAATATAA
+            to: 'RT_153'
+          - from: ACGTCATATA
+            to: 'RT_154'
+          - from: CGGTTGCGCG
+            to: 'RT_155'
+          - from: CAAGGAGGTC
+            to: 'RT_156'
+          - from: TTACGATGAA
+            to: 'RT_157'
+          - from: TTGCTGGCAT
+            to: 'RT_158'
+          - from: ATTCGACCAA
+            to: 'RT_159'
+          - from: CCGCGGCTCA
+            to: 'RT_160'
+          - from: GTTACGCAAG
+            to: 'RT_161'
+          - from: AGCCGGTACC
+            to: 'RT_162'
+          - from: ACCTCTATCT
+            to: 'RT_163'
+          - from: GGACTACTAC
+            to: 'RT_164'
+          - from: GTATCATCGA
+            to: 'RT_165'
+          - from: CCGCGATTAT
+            to: 'RT_166'
+          - from: ATTCAGGTAC
+            to: 'RT_167'
+          - from: ATGGAATTGG
+            to: 'RT_168'
+          - from: GACGAAGCGT
+            to: 'RT_169'
+          - from: CTTGCAGTAG
+            to: 'RT_170'
+          - from: CTTGGTAATG
+            to: 'RT_171'
+          - from: CAAGTCGACC
+            to: 'RT_172'
+          - from: TAACGAATTG
+            to: 'RT_173'
+          - from: TTATTCTGAG
+            to: 'RT_174'
+          - from: TTATTATGGT
+            to: 'RT_175'
+          - from: ATATGAGCCA
+            to: 'RT_176'
+          - from: CAACCAGTAC
+            to: 'RT_177'
+          - from: CATCCGACTA
+            to: 'RT_178'
+          - from: CCGCAAGTTC
+            to: 'RT_179'
+          - from: CAGGAGGAGA
+            to: 'RT_180'
+          - from: GATATCGGCG
+            to: 'RT_181'
+          - from: CCAGTCCTCT
+            to: 'RT_182'
+          - from: CATAGTTCGG
+            to: 'RT_183'
+          - from: CGTAATGCAG
+            to: 'RT_184'
+          - from: CCGTTCGGAT
+            to: 'RT_185'
+          - from: CCATAAGTCC
+            to: 'RT_186'
+          - from: GGCAATGAGA
+            to: 'RT_187'
+          - from: CGGTTATGCC
+            to: 'RT_188'
+          - from: TGGCCGGCCT
+            to: 'RT_189'
+          - from: AGCTGCAATA
+            to: 'RT_190'
+          - from: TGGCCATGCA
+            to: 'RT_191'
+          - from: TGACGCTCCG
+            to: 'RT_192'
+        reportingLevel: VerboseReport

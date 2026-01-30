@@ -10,7 +10,7 @@ This directory contains the necessary code for running analysis and plotting fig
 * **plotScripts**: Contains scripts that do the bulk of the plotting and analysis of the processed data.
 * **helperScripts**: Contains a tools script that has helper and plotting functions.
 * **graphs**: Contains sub-figures used to construct figures in the main text and supplement.
-* **extractedData**: Contains intermediate datafiles that were small enough for Github.
+
 
 ---
 

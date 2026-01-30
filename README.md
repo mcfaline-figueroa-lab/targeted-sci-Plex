@@ -16,15 +16,8 @@ This directory contains the necessary code for running analysis and plotting fig
 
 ## Data Availability
 
-The following datasets are available via the Gene Expression Omnibus (GEO).
+The datasets in this manuscript will be available via the Gene Expression Omnibus (GEO).
 
-| Accession | Title |
-| :--- | :--- |
-| **GSE317074** | A modular transcript enrichment strategy for scalable, atlas-aligned, and clonotype-resolved single-cell transcriptomics |
-| **GSM9464724** | sci-Plex-mouse-brain |
-| **GSM9464725** | sci-RNA-TRTL-mouse-1 |
-| **GSM9464726** | sci-RNA-TRTL-mouse-2 |
-| **GSM9464727** | targeted-sci-Plex-Jurkat |
 
 ---
 
